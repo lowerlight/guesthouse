@@ -31,19 +31,31 @@ public class SQLAdaptor
     private final static String pswd = "apiit";
     private static Connection conn = null;
 
-    public static ArrayList query(String sql)
+    public static ArrayList query(String sql, Object... param)
     {
         ArrayList result = null;
         System.out.println(sql);
+
         try
         {
-            //Load JDBC driver and create connection to the database first
+            //Load JDBC driver and register it first
             DbUtils.loadDriver(jdbcDriver);
+            Class.forName(jdbcDriver).newInstance();
+        }
+        catch(Exception e)
+        {
+            Logger lgr = Logger.getLogger(SQLAdaptor.class.getName());
+            lgr.log(Level.SEVERE, e.getMessage(), e);
+        }
+
+        try
+        {
+            //Create connection to the database
             conn = DriverManager.getConnection(url, user, pswd);
 
             //Prepare the runner and execute the query
             QueryRunner qRunner = new QueryRunner();
-            result = (ArrayList) qRunner.query(conn, sql, new ArrayListHandler());
+            result = (ArrayList) qRunner.query(conn, sql, new ArrayListHandler(), param);
         }
         catch(SQLException ex)
         {
@@ -69,10 +81,22 @@ public class SQLAdaptor
     {
         int status=0;
         System.out.println(sql);
+
         try
         {
-            //Load JDBC driver and create connection to the database first
+            //Load JDBC driver and register it first
             DbUtils.loadDriver(jdbcDriver);
+            Class.forName(jdbcDriver).newInstance();
+        }
+        catch(Exception e)
+        {
+            Logger lgr = Logger.getLogger(SQLAdaptor.class.getName());
+            lgr.log(Level.SEVERE, e.getMessage(), e);
+        }
+
+        try
+        {
+            //Create connection to the database
             conn = DriverManager.getConnection(url, user, pswd);
 
             //Prepare the runner and execute the update
