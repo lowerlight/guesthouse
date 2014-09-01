@@ -102,7 +102,7 @@ public class ChaletBooking
                     }
                     System.out.print(temp[i] + " " + temp[i].getClass().getName() + " ");
                 }
-                cbList.add(new ChaletBooking((String)temp[0], null, (Date)temp[2], (Date)temp[3], null, null, false, null, false));
+                cbList.add(new ChaletBooking((String)temp[0], "", (Date)temp[2], (Date)temp[3], new Date(new java.util.Date().getTime()), new Date(new java.util.Date().getTime()), false, new BigDecimal(0), false));
             }
             catch(NullPointerException e)
             {
